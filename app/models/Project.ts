@@ -57,7 +57,40 @@ const projectSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     // Instead of an array, sections is one object that holds all section data.
-    sections: { type: projectSectionsSchema, required: true },
+    about: {
+      order: Number,
+      content: String,
+      photo: String,
+    },
+    location: {
+      order: Number,
+      content: String,
+      photo: String,
+      numbers: [specialNumberSchema],
+    },
+    facilities: {
+      order: Number,
+      content: String,
+      photo: String,
+      facilities: [facilitySchema],
+    },
+    master_plan: {
+      order: Number,
+      content: String,
+      photo: String,
+    },
+    videos: {
+      order: Number,
+      content: String,
+      photo: String,
+      videos: [String],
+    },
+    gallery: {
+      order: Number,
+      content: String,
+      photo: String,
+      images: [String],
+    },
     place: { type: mongoose.Schema.Types.ObjectId, ref: "Place" },
   },
   { timestamps: true }

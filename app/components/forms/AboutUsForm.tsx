@@ -95,7 +95,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
               validation: z
                 .array(
                   z.object({
-                    photo: z.string().url({ message: "Photo must be a valid URL." }),
+                    photo: z.string(),
                     title: z.string().min(2, { message: "Title is required." }),
                     description: z.string().min(5, { message: "Description must be at least 5 characters." }),
                   })
@@ -117,7 +117,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
               name: "photo",
               label: "Photo",
               component: "photo",
-              validation: z.string().url({ message: "Photo must be a valid URL." }),
+              validation: z.string(),
               single: true,
             },
           ],
@@ -125,6 +125,9 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             photo: "",
           },
           fieldArrays: [], // No array fields
+          arrayFieldComponents: {
+            "members.content": "textarea",
+          },
         };
 
       case "board_members":
@@ -137,7 +140,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
               validation: z
                 .array(
                   z.object({
-                    photo: z.string().url({ message: "Photo must be a valid URL." }),
+                    photo: z.string(),
                     title: z.string().min(2, { message: "Title is required." }),
                     jobTitle: z.string().min(2, { message: "Job Title is required." }),
                     content: z.string().min(10, { message: "Content must be at least 10 characters." }),
@@ -160,10 +163,11 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
               name: "companies",
               label: "Companies",
               component: "array",
+              single: true,
               validation: z
                 .array(
                   z.object({
-                    image: z.string().url({ message: "Image must be a valid URL." }),
+                    photo: z.string(),
                     title: z.string().min(2, { message: "Title is required." }),
                     content: z.string().min(10, { message: "Content must be at least 10 characters." }),
                   })
@@ -172,7 +176,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             },
           ],
           defaultValues: {
-            companies: [{ image: "", title: "", content: "" }],
+            companies: [{ photo: "", title: "", content: "" }],
           },
           fieldArrays: ["companies"],
         };
@@ -184,23 +188,15 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             {
               name: "images",
               label: "Images",
-              component: "array",
-              validation: z
-                .array(
-                  z.object({
-                    url: z.string().url({ message: "Image URL must be valid." }),
-                    description: z.string().min(5, { message: "Description must be at least 5 characters." }),
-                  })
-                )
-                .min(1, { message: "At least one certificate image is required." }),
+              component: "photo",
+
+              validation: z.array(z.string()).min(1, { message: "At least one certificate image is required." }),
             },
           ],
           defaultValues: {
-            images: [{ url: "", description: "" }],
+            images: [""],
           },
-          fieldArrays: ["images"],
         };
-
       default:
         return { fields: [], defaultValues: {}, fieldArrays: [] };
     }
@@ -208,6 +204,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
 
   // Called when the form is submitted.
   const handleSubmit = async (values: any) => {
+    console.log(values);
     try {
       const newErrors: Record<string, string> = {};
       Object.keys(values).forEach((key) => {
@@ -223,7 +220,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
         ? await updateEntity("AboutUs", values._id, { ...values, type: activeTab })
         : await createEntity("AboutUs", { ...values, type: activeTab });
       console.log(result);
-      onSuccess?.();
+      return result;
     } catch (error) {
       console.error("Submission error:", error);
     }
@@ -231,7 +228,6 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
 
   // A separate component to render array fields so hooks are always called in the same order.
   const ArrayFields = ({ config, control }: { config: FormConfig; control: any }) => {
-    // Always treat fieldArrays as an array.
     const fieldArrays = config.fieldArrays || [];
     return (
       <>
@@ -245,20 +241,27 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             <div key={fieldName} className="space-y-4">
               {fields.map((field, index) => (
                 <div key={field.id} className="border p-4 rounded-lg space-y-2">
-                  {Object.keys(field).map((key) => {
-                    if (key === "id") return null;
-                    const isPhoto = key === "photo" || key === "image" || key === "url";
+                  {typeof field === "object" && field !== null ? (
+                    Object.keys(field).map((key) => {
+                      if (key === "id") return null;
+                      const isPhoto = key === "photo" || key === "image" || key === "url" || key === "images";
+                      const componentType = config.arrayFieldComponents?.[`${fieldName}.${key}`] || undefined;
 
-                    return (
-                      <FormInput
-                        single={key === "photo"?true:false}
-                        photo={isPhoto}
-                        key={`${fieldName}.${index}.${key}`}
-                        name={`${fieldName}.${index}.${key}`}
-                        label={key.charAt(0).toUpperCase() + key.slice(1)}
-                      />
-                    );
-                  })}
+                      return (
+                        <FormInput
+                          single={key === "photo"}
+                          photo={isPhoto}
+                          key={`${fieldName}.${index}.${key}`}
+                          name={`${fieldName}.${index}.${key}`}
+                          area={componentType === "textarea"}
+                          label={key.charAt(0).toUpperCase() + key.slice(1)}
+                        />
+                      );
+                    })
+                  ) : (
+                    // Render a single input if the field is a primitive (e.g., a string)
+                    <FormInput photo={true} name={`${fieldName}.${index}`} label="Image" />
+                  )}
                   <Button type="button" variant="destructive" onClick={() => remove(index)}>
                     Remove
                   </Button>
@@ -285,8 +288,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
         return { photo: "", title: "", jobTitle: "", content: "" };
       case "companies":
         return { image: "", title: "", content: "" };
-      case "images":
-        return { url: "", description: "" };
+
       default:
         return {};
     }

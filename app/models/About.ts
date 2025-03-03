@@ -20,7 +20,7 @@ const boardMemberSchema = new mongoose.Schema({
 });
 
 const companySchema = new mongoose.Schema({
-  image: String,
+  photo: String,
   title: String,
   content: String,
 });
@@ -47,7 +47,7 @@ const aboutUsSectionSchema = new mongoose.Schema(
     items: [multiStuffItemSchema],
     members: [boardMemberSchema],
     companies: [companySchema],
-    images: [certificateImageSchema],
+    images: [String],
     // Company section specific
     description: String,
   },

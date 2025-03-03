@@ -11,7 +11,7 @@ import FormSelect from "../inputs/FormSelect";
 import FormInput from "../inputs/FormInput";
 import { PhotoInput } from "../inputs/PhotoInput";
 import { DynamicFormProps } from "@/app/types";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 export default function DynamicForm({
   fields,
@@ -45,7 +45,7 @@ export default function DynamicForm({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-  console.log(form.formState.errors);
+  console.log(form.formState.errors, form.getValues());
   const isUploading = form.watch("isUploading");
 
   async function handleFormSubmit(values: z.infer<typeof formSchema>) {
@@ -55,20 +55,12 @@ export default function DynamicForm({
       const res = await onSubmit(values);
       console.log(res);
       if (res?.error) throw new Error(res.error);
-      toast({
-        title: "Success",
-        description: "Operation completed successfully",
-        variant: "default",
-      });
+      if (res?.success) toast.success(res.success);
     } catch (err) {
       console.error("Form submission error:", err);
       setError(err?.message || err.error || "An error occurred");
 
-      toast({
-        title: "Error",
-        description: err?.message | err.error || "Failed to submit form",
-        variant: "destructive",
-      });
+      toast.error(err?.message || err.error || "An error occurred");
     } finally {
       setIsSubmitting(false);
     }

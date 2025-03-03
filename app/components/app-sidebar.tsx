@@ -36,6 +36,10 @@ const data = {
           title: "Create About us",
           url: "/dashboard/about-create",
         },
+        {
+          title: "places",
+          url: "/dashboard/places",
+        },
       ],
     },
   ],

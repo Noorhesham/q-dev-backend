@@ -8,9 +8,9 @@ import About from "@/app/models/About";
 
 export const dynamic = "force-dynamic";
 
-const Page = async () => {
+const Page = async ({ searchParams }: { searchParams: { page?: string } }) => {
   await connect();
-  const aboutUsData = await About.find({});
+  const aboutUsData = await About.find({}).skip((+searchParams.page - 1) * 10).limit(10);
   const dataObj = JSON.parse(JSON.stringify(aboutUsData || []));
   const count = await About.countDocuments();
   const totalPages = Math.ceil(count / 10);

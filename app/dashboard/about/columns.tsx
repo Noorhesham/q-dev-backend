@@ -56,11 +56,11 @@ export const aboutUsColumns: ColumnDef<AboutUsSection>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent className="flex flex-col items-start" align="end">
             <DeleteSingle data={section} entity="AboutUs" />
             <>
               <Link
-                className={`${buttonVariants({ variant: "ghost" })}`}
+                className={`${buttonVariants({ variant: "ghost" })} w-full`}
                 href={`/dashboard/about-create/${section._id}`}
               >
                 Edit

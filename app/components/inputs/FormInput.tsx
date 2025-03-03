@@ -5,7 +5,6 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
-import { Textarea } from "@/components/ui/textarea";
 import { useFormContext } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";

@@ -4,14 +4,17 @@ import Category from "../models/Category";
 import bcrypt from "bcryptjs";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { ModelProps } from "../constant";
-import Order from "../models/Order";
-import Product from "../models/Product";
+
 import connect from "../utils/clientPromise";
 import AboutUs from "../models/About";
+import Place from "../models/Place";
+import Project from "../models/Project";
 
 const getModel = (modelName: ModelProps) => {
   const models: Record<ModelProps, any> = {
     AboutUs: AboutUs,
+    Place: Place,
+    Project: Project,
   };
   return models[modelName];
 };

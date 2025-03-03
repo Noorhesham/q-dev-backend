@@ -8,11 +8,6 @@ import Image from "next/image";
 import { Trash } from "lucide-react";
 import { uploadPhotoAction } from "@/app/actions/upload";
 
-interface ImageType {
-  secure_url: string;
-  publicId: string;
-}
-
 export const PhotoInput = ({ name, single = false }: { name: string; single?: boolean }) => {
   const {
     setValue,
@@ -21,9 +16,20 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
   } = useFormContext();
   const [isUploading, setIsUploading] = useState(false);
 
-  // Ensure images are always stored as an array
+  // Determine if we should store as single string based on prop or field name
+  const shouldStoreSingle = single || name === "photo"||name==='background';
+
+  // Get current value from form
   const watchedValue = watch(name);
-  const currentImages: ImageType[] = Array.isArray(watchedValue) ? watchedValue : watchedValue ? [watchedValue] : [];
+
+  // Normalize current images
+  let currentImages: string[] = [];
+
+  if (Array.isArray(watchedValue)) {
+    currentImages = watchedValue;
+  } else if (typeof watchedValue === "string" && watchedValue) {
+    currentImages = [watchedValue];
+  }
 
   const handleUpload = useCallback(
     async (files: FileList) => {
@@ -35,12 +41,16 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
           const formData = new FormData();
           formData.append("photo", file);
           const result = await uploadPhotoAction(formData);
-          return result;
+          return result.secure_url;
         });
 
-        const results = await Promise.all(uploadPromises);
+        const urls = await Promise.all(uploadPromises);
 
-        setValue(name, single ? results[0] : [...currentImages, ...results]);
+        if (shouldStoreSingle) {
+          setValue(name, urls[0]); // Store single image
+        } else {
+          setValue(name, [...currentImages, ...urls]); // Append new images to array
+        }
       } catch (error) {
         console.error("Upload failed:", error);
       } finally {
@@ -48,21 +58,19 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
         setValue("isUploading", false);
       }
     },
-    [currentImages, name, setValue, single]
+    [currentImages, name, setValue, shouldStoreSingle]
   );
 
-  const handleDelete = (publicId: string) => {
-    setValue(
-      name,
-      currentImages.filter((img) => img.publicId !== publicId)
-    );
+  const handleDelete = (url: string) => {
+    const filteredImages = currentImages.filter((imgUrl) => imgUrl !== url);
+    setValue(name, shouldStoreSingle ? filteredImages[0] || "" : filteredImages);
   };
 
   return (
     <div className="space-y-4 w-full">
       <Input
         type="file"
-        multiple={!single}
+        multiple={!shouldStoreSingle}
         accept="image/*"
         disabled={isUploading}
         onChange={(e) => e.target.files && handleUpload(e.target.files)}
@@ -70,30 +78,29 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
       />
 
       <div className="grid grid-cols-3 gap-4">
-        {currentImages.map((image, index) => (
-          <div key={image.publicId} className="relative w-full h-44 group">
-            <Image
-              src={image.secure_url}
-              alt={`Upload ${index + 1}`}
-              fill
-              className="rounded-lg w-full object-cover aspect-square"
-            />
-            <Button
-              type="button"
-              variant="destructive"
-              size="sm"
-              className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
-              onClick={() => handleDelete(image.publicId)}
-            >
-              <Trash className="h-4 w-4" />
-            </Button>
-          </div>
-        ))}
+        {currentImages.length > 0 &&
+          currentImages.map((url, index) => (
+            <div key={url + index} className="relative w-full h-44 group">
+              <Image
+                src={url}
+                alt={`Upload ${index + 1}`}
+                fill
+                className="rounded-lg w-full object-cover aspect-square"
+              />
+              <Button
+                type="button"
+                variant="destructive"
+                size="sm"
+                className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={() => handleDelete(url)}
+              >
+                <Trash className="h-4 w-4" />
+              </Button>
+            </div>
+          ))}
       </div>
 
       {isUploading && <p className="text-sm text-muted-foreground">Uploading images...</p>}
-
-      {/* Show validation error */}
     </div>
   );
 };

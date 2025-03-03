@@ -1,10 +1,14 @@
 import User from "../models/User";
 import AboutUs from "../models/About";
-export type ModelProps = "AboutUs" | "User";
+import Place from "../models/Place";
+import Project from "../models/Project";
+export type ModelProps = "AboutUs" | "User" | "Place" | "Project";
 
 const models: Record<ModelProps, any> = {
   AboutUs,
   User,
+  Place,
+  Project,
 };
 
 export default models;

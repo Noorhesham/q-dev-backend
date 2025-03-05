@@ -5,6 +5,7 @@ import DynamicForm from "./DynamicForm";
 import { Button } from "@/components/ui/button";
 import FormInput from "../inputs/FormInput";
 import { createEntity, updateEntity } from "@/app/actions/actions";
+import { useRouter } from "next/navigation";
 
 interface PlaceFormProps {
   initialData?: any; // Replace with your Place type if available
@@ -48,12 +49,15 @@ export default function PlaceForm({ initialData, onSuccess }: PlaceFormProps) {
     },
     fieldArrays: [] as string[],
   };
-
+  const router = useRouter();
   const handleSubmit = async (values: any) => {
     try {
-      const result = values._id ? await updateEntity("Place", values._id, values) : await createEntity("Place", values);
+      const result = initialData
+        ? await updateEntity("Place", initialData._id, values)
+        : await createEntity("Place", values);
       console.log(result);
-      onSuccess?.();
+      router.refresh();
+      return result;
     } catch (error) {
       console.error("Submission error:", error);
     }

@@ -116,11 +116,11 @@ export default function DynamicForm({
                   key={field.name}
                   control={form.control}
                   name={field.name}
-                  render={({ field }) => (
+                  render={({ field: fieldInner }) => (
                     <FormItem>
                       <FormLabel>{field.label}</FormLabel>
                       <FormControl>
-                        <PhotoInput name={field.name} value={field.value} />
+                        <PhotoInput mediaType={field.mediaType} name={field.name} value={fieldInner.value} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

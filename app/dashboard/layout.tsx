@@ -4,7 +4,7 @@ import { AppSidebar } from "../components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import QueryProvider from "../utils/QueryProvider";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 export default function RootLayout({
   children,

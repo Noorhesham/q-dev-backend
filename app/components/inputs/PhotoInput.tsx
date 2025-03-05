@@ -8,7 +8,15 @@ import Image from "next/image";
 import { Trash } from "lucide-react";
 import { uploadPhotoAction } from "@/app/actions/upload";
 
-export const PhotoInput = ({ name, single = false }: { name: string; single?: boolean }) => {
+export const PhotoInput = ({
+  name,
+  single = false,
+  mediaType = "image",
+}: {
+  name: string;
+  single?: boolean;
+  mediaType?: "image" | "video";
+}) => {
   const {
     setValue,
     watch,
@@ -17,7 +25,7 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
   const [isUploading, setIsUploading] = useState(false);
 
   // Determine if we should store as single string based on prop or field name
-  const shouldStoreSingle = single || name === "photo"||name==='background';
+  const shouldStoreSingle = single || name === "photo" || name === "background";
 
   // Get current value from form
   const watchedValue = watch(name);
@@ -30,7 +38,7 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
   } else if (typeof watchedValue === "string" && watchedValue) {
     currentImages = [watchedValue];
   }
-
+  console.log(mediaType);
   const handleUpload = useCallback(
     async (files: FileList) => {
       try {
@@ -71,7 +79,7 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
       <Input
         type="file"
         multiple={!shouldStoreSingle}
-        accept="image/*"
+        accept={mediaType === "image" ? "image/*" : "video/*"}
         disabled={isUploading}
         onChange={(e) => e.target.files && handleUpload(e.target.files)}
         className="cursor-pointer"
@@ -81,12 +89,16 @@ export const PhotoInput = ({ name, single = false }: { name: string; single?: bo
         {currentImages.length > 0 &&
           currentImages.map((url, index) => (
             <div key={url + index} className="relative w-full h-44 group">
-              <Image
-                src={url}
-                alt={`Upload ${index + 1}`}
-                fill
-                className="rounded-lg w-full object-cover aspect-square"
-              />
+              {mediaType === "image" ? (
+                <Image
+                  src={url}
+                  alt={`Upload ${index + 1}`}
+                  fill
+                  className="rounded-lg w-full object-cover aspect-square"
+                />
+              ) : (
+                <video controls src={url} className="max-w-full h-48 object-cover rounded" />
+              )}
               <Button
                 type="button"
                 variant="destructive"

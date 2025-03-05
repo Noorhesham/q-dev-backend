@@ -13,45 +13,6 @@ const facilitySchema = new mongoose.Schema({
 });
 
 // Create a schema for all sections as one object
-const projectSectionsSchema = new mongoose.Schema(
-  {
-    about: {
-      order: Number,
-      content: String,
-      photo: String,
-    },
-    location: {
-      order: Number,
-      content: String,
-      photo: String,
-      numbers: [specialNumberSchema],
-    },
-    facilities: {
-      order: Number,
-      content: String,
-      photo: String,
-      facilities: [facilitySchema],
-    },
-    master_plan: {
-      order: Number,
-      content: String,
-      photo: String,
-    },
-    videos: {
-      order: Number,
-      content: String,
-      photo: String,
-      videos: [String],
-    },
-    gallery: {
-      order: Number,
-      content: String,
-      photo: String,
-      images: [String],
-    },
-  },
-  { _id: false } // no separate _id for sections
-);
 
 const projectSchema = new mongoose.Schema(
   {
@@ -62,35 +23,30 @@ const projectSchema = new mongoose.Schema(
       content: String,
       photo: String,
     },
+    videos: [String], // Array of video URLs
+
     location: {
       order: Number,
       content: String,
       photo: String,
       numbers: [specialNumberSchema],
+      background: String,
     },
     facilities: {
       order: Number,
       content: String,
       photo: String,
       facilities: [facilitySchema],
+      background: String,
     },
     master_plan: {
       order: Number,
       content: String,
       photo: String,
     },
-    videos: {
-      order: Number,
-      content: String,
-      photo: String,
-      videos: [String],
-    },
-    gallery: {
-      order: Number,
-      content: String,
-      photo: String,
-      images: [String],
-    },
+
+    darkImages: [String], // New field
+    lightImages: [String], // New field
     place: { type: mongoose.Schema.Types.ObjectId, ref: "Place" },
   },
   { timestamps: true }

@@ -216,8 +216,9 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
         setErrors(newErrors);
         return;
       }
-      const result = values._id
-        ? await updateEntity("AboutUs", values._id, { ...values, type: activeTab })
+      console.log(values)
+      const result = initialData
+        ? await updateEntity("AboutUs", initialData._id, { ...values, type: activeTab })
         : await createEntity("AboutUs", { ...values, type: activeTab });
       console.log(result);
       return result;
@@ -300,7 +301,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
   const mergedDefaults = initialData ? { ...config.defaultValues, ...initialData } : config.defaultValues;
 
   return (
-    <div className="space-y-6">
+    <MaxWidthWrapper className="space-y-6">
       <div className="mb-4">
         <label htmlFor="section-type" className="block mb-2">
           Select Section Type:
@@ -334,6 +335,6 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
         {(control, getValues) => <ArrayFields config={config} control={control} />}
       </DynamicForm>
       {errors.someField && <span className="text-red-500">{errors.someField}</span>}
-    </div>
+    </MaxWidthWrapper>
   );
 }

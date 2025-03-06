@@ -4,10 +4,10 @@ import { z } from "zod";
 import ArrayFields from "./ArrayFields";
 import DynamicForm from "../DynamicForm";
 
-export default function VideosForm({ initialData, onSubmit }) {
-  const handleSubmit = (data) => {
-   return onSubmit(data.videos);
-  }
+export default function VideosForm({ initialData, onSubmit }: { initialData?: string[]; onSubmit: any }) {
+  const handleSubmit = (data: any) => {
+    return onSubmit(data.videos);
+  };
   return (
     <DynamicForm
       title="Videos Section"
@@ -21,7 +21,7 @@ export default function VideosForm({ initialData, onSubmit }) {
         },
       ]}
       onSubmit={handleSubmit}
-      defaultValues={initialData}
+      defaultValues={{ videos: initialData }}
     ></DynamicForm>
   );
 }

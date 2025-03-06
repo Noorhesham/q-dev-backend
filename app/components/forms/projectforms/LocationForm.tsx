@@ -3,21 +3,8 @@
 import { z } from "zod";
 import ArrayFields from "./ArrayFields";
 import DynamicForm from "../DynamicForm";
-
-const commonFields = [
-  {
-    name: "order",
-    label: "Order",
-    type: "number",
-    validation: z.union([z.string().min(1), z.number().min(0)]),
-  },
-  {
-    name: "content",
-    label: "Content",
-    validation: z.string().min(10),
-    component: "textarea",
-  },
-];
+import { LocationSection } from "@/app/types";
+import { commonFields } from "@/app/utils/validate";
 
 const formConfig = {
   fields: [
@@ -51,7 +38,7 @@ const formConfig = {
   fieldArrays: ["numbers"],
 };
 
-export default function LocationForm({ initialData, onSubmit }) {
+export default function LocationForm({ initialData, onSubmit }: { initialData?: LocationSection; onSubmit: any }) {
   console.log(initialData);
   return (
     <DynamicForm
@@ -60,7 +47,7 @@ export default function LocationForm({ initialData, onSubmit }) {
       onSubmit={onSubmit}
       defaultValues={initialData || formConfig.defaultValues}
     >
-      {(control) => <ArrayFields config={formConfig} control={control} />}
+      {(control: any) => <ArrayFields config={formConfig} control={control} />}
     </DynamicForm>
   );
 }

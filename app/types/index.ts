@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-export type SectionType = "special_numbers" | "multi_stuff" | "ceo" | "board_members" | "companies" | "certificates";
-
 export type AboutUsSection = {
   _id?: string;
   type: SectionType;
@@ -60,3 +58,54 @@ type CertificateImage = {
   url: string;
   description: string;
 };
+export interface SpecialNumber {
+  number: number;
+  title: string;
+  prefix: string;
+  photo: string;
+}
+
+export interface Facility {
+  title: string;
+  photo: string;
+}
+
+export interface Section {
+  order: number;
+  content: string;
+  photo: string;
+}
+
+export interface LocationSection extends Section {
+  numbers: SpecialNumber[];
+  background: string;
+}
+
+export interface FacilitiesSection extends Section {
+  facilities: Facility[];
+  background: string;
+}
+export type SectionType =
+  | "title"
+  | "location"
+  | "facilities"
+  | "videos"
+  | "darkImages"
+  | "lightImages"
+  | "master_plan"
+  | "video";
+export interface Project {
+  _id: string;
+  title: string;
+  about: Section;
+  videos: string[];
+  location: LocationSection;
+  facilities: FacilitiesSection;
+  master_plan: Section;
+  darkImages: string[];
+  lightImages: string[];
+  place: string; // Assuming it's a MongoDB ObjectId
+  video?: string;
+  createdAt: string;
+  updatedAt: string;
+}

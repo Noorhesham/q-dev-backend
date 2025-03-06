@@ -48,6 +48,7 @@ const projectSchema = new mongoose.Schema(
     darkImages: [String], // New field
     lightImages: [String], // New field
     place: { type: mongoose.Schema.Types.ObjectId, ref: "Place" },
+    video: String,
   },
   { timestamps: true }
 );

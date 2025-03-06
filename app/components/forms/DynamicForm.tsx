@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import FormSelect from "../inputs/FormSelect";
 import FormInput from "../inputs/FormInput";
 import { PhotoInput } from "../inputs/PhotoInput";
-import { DynamicFormProps } from "@/app/types";
 import { toast } from "react-toastify";
 
 export default function DynamicForm({
@@ -120,7 +119,12 @@ export default function DynamicForm({
                     <FormItem>
                       <FormLabel>{field.label}</FormLabel>
                       <FormControl>
-                        <PhotoInput mediaType={field.mediaType} name={field.name} value={fieldInner.value} />
+                        <PhotoInput
+                          single={field.single}
+                          mediaType={field.mediaType}
+                          name={field.name}
+                          value={fieldInner.value}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

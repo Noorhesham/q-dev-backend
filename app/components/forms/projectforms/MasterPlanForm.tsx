@@ -2,33 +2,21 @@
 
 import { z } from "zod";
 import DynamicForm from "../DynamicForm";
+import { commonFields } from "@/app/utils/validate";
 
-const commonFields = [
-  {
-    name: "order",
-    label: "Order",
-    type: "number",
-    validation: z.union([z.string().min(1), z.number().min(0)]),
-  },
-  {
-    name: "content",
-    label: "Content",
-    validation: z.string().min(10),
-    component: "textarea",
-  },
-  {
-    name: "photo",
-    label: "Master Plan Image",
-    component: "photo",
-    validation: z.string().min(1),
-  },
-];
-
-export default function MasterPlanForm({ initialData, onSubmit }) {
+export default function MasterPlanForm({ initialData, onSubmit }: { initialData?: any; onSubmit: any }) {
   return (
     <DynamicForm
       title="Master Plan Section"
-      fields={commonFields}
+      fields={[
+        ...commonFields,
+        {
+          name: "photo",
+          label: "Master Plan Image",
+          component: "photo",
+          validation: z.string().min(1),
+        },
+      ]}
       onSubmit={onSubmit}
       defaultValues={
         initialData || {

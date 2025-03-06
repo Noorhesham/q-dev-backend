@@ -11,6 +11,10 @@ import MasterPlanForm from "./projectforms/MasterPlanForm";
 import VideosForm from "./projectforms/VideoForm";
 import { DarkImagesForm, LightImagesForm } from "./projectforms/Gallery";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import VideoSingleForm from "./projectforms/VideoSingleForm";
+import { Project, SectionType } from "@/app/types";
+
+
 
 const formComponents = {
   title: ProjectTitleForm,
@@ -20,16 +24,17 @@ const formComponents = {
   darkImages: DarkImagesForm,
   lightImages: LightImagesForm,
   master_plan: MasterPlanForm,
+  video: VideoSingleForm,
 };
 
-export default function ProjectEditor({ initialData }) {
-  const { id } = useParams();
+export default function ProjectEditor({ initialData }: { initialData: Project }) {
   const [projectId, setProjectId] = useState(initialData?._id);
   const [selectedForm, setSelectedForm] = useState("title");
 
-  const handleSubmit = async (sectionType, values) => {
+  const handleSubmit = async (sectionType: SectionType, values: Project) => {
     try {
-      const data = { title: values.title, [sectionType]: values };
+      console.log(sectionType, values);
+      const data = { title: values?.title || initialData.title, [sectionType]: values };
       const result = await updateEntity("Project", projectId, data);
       return result;
     } catch (error) {
@@ -37,7 +42,7 @@ export default function ProjectEditor({ initialData }) {
     }
   };
 
-  const SelectedFormComponent = formComponents[selectedForm];
+  const SelectedFormComponent = formComponents[selectedForm] as any;
 
   return (
     <MaxWidthWrapper className="space-y-8">
@@ -56,7 +61,7 @@ export default function ProjectEditor({ initialData }) {
 
       {SelectedFormComponent && (
         <SelectedFormComponent
-          initialData={initialData?.[selectedForm]}
+          initialData={selectedForm === "title" ? initialData : initialData?.[selectedForm]}
           onSubmit={(values) => handleSubmit(selectedForm, values)}
         />
       )}

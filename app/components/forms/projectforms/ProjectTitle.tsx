@@ -2,34 +2,38 @@
 
 import { z } from "zod";
 import DynamicForm from "../DynamicForm";
-import { createEntity } from "@/app/actions/actions";
+import { createEntity, updateEntity } from "@/app/actions/actions";
 import { useRouter } from "next/navigation";
 
-const formConfig = {
-  fields: [
-    {
-      name: "title",
-      label: "Project Title",
-      type: "text",
-      validation: z.string().min(3),
+export default function ProjectTitleForm({ id, initialData }: any) {
+  const formConfig = {
+    fields: [
+      {
+        name: "title",
+        label: "Project Title",
+        type: "text",
+        validation: z.string().min(3),
+      },
+    ],
+    defaultValues: {
+      title: initialData.title || "",
     },
-  ],
-  defaultValues: {
-    title: "",
-  },
-};
-
-export default function ProjectTitleForm({ id }: any) {
+  };
   const router = useRouter();
+  console.log(initialData);
   const onSubmit = async (values) => {
-    const project = await createEntity("Project", { title: values.title, place: id });
+    const project = initialData
+      ? await updateEntity("Project", initialData._id, { title: values.title, place: id })
+      : await createEntity("Project", { title: values.title, place: id });
     router.refresh();
+    return project;
   };
   return (
     <DynamicForm
       title="Project Title"
       fields={formConfig.fields}
       onSubmit={onSubmit}
+      defaultValues={formConfig.defaultValues}
       submitButtonText={"Create Project"}
     />
   );

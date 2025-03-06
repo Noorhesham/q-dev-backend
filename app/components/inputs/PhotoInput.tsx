@@ -38,7 +38,7 @@ export const PhotoInput = ({
   } else if (typeof watchedValue === "string" && watchedValue) {
     currentImages = [watchedValue];
   }
-  console.log(mediaType);
+  console.log(watchedValue);
   const handleUpload = useCallback(
     async (files: FileList) => {
       try {
@@ -97,7 +97,7 @@ export const PhotoInput = ({
                   className="rounded-lg w-full object-cover aspect-square"
                 />
               ) : (
-                <video controls src={url} className="max-w-full h-48 object-cover rounded" />
+                <video controls src={url} className="max-w-full h-full  absolute inset-0 object-cover rounded" />
               )}
               <Button
                 type="button"

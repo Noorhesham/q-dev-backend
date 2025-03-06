@@ -3,31 +3,18 @@
 import { z } from "zod";
 import ArrayFields from "./ArrayFields";
 import DynamicForm from "../DynamicForm";
-
-const commonFields = [
-  {
-    name: "order",
-    label: "Order",
-    type: "number",
-    validation: z.union([z.string().min(1), z.number().min(0)]),
-  },
-  {
-    name: "content",
-    label: "Content",
-    validation: z.string().min(10),
-    component: "textarea",
-  },
-  {
-    name: "photo",
-    label: "Main Photo",
-    component: "photo",
-    validation: z.string().min(1),
-  },
-];
+import { FacilitiesSection } from "@/app/types";
+import { commonFields } from "@/app/utils/validate";
 
 const formConfig = {
   fields: [
     ...commonFields,
+    {
+      name: "photo",
+      label: "Main Photo",
+      component: "photo",
+      validation: z.string().min(1),
+    },
     {
       name: "background",
       label: "Background Image",
@@ -55,7 +42,7 @@ const formConfig = {
   fieldArrays: ["facilities"],
 };
 
-export default function FacilitiesForm({ initialData, onSubmit }) {
+export default function FacilitiesForm({ initialData, onSubmit }: { initialData?: FacilitiesSection; onSubmit: any }) {
   return (
     <DynamicForm
       title="Facilities Section"
@@ -63,7 +50,7 @@ export default function FacilitiesForm({ initialData, onSubmit }) {
       onSubmit={onSubmit}
       defaultValues={initialData || formConfig.defaultValues}
     >
-      {(control) => <ArrayFields config={formConfig} control={control} />}
+      {(control: any) => <ArrayFields config={formConfig} control={control} />}
     </DynamicForm>
   );
 }

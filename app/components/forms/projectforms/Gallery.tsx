@@ -10,7 +10,7 @@ const createGalleryForm = (name: string, label: string) => {
         name,
         label,
         component: "photo",
-        validation: z.array(z.string()),
+        validation: z.array(z.string()).nonempty(),
       },
     ],
   };

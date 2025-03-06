@@ -42,8 +42,6 @@ export function DataTable<TData extends TableData, TValue>({
   data,
   page,
   totalPages,
-  entity,
-  handleDeleteAll,
 }: DataTableProps<TData, TValue>) {
   console.log(data);
   const [sorting, setSorting] = React.useState<SortingState>([]);

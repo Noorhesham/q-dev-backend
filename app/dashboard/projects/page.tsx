@@ -2,13 +2,13 @@
 
 import { DataTable } from "@/app/components/DataTable";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
-import Product from "@/app/models/Product";
 import connect from "@/app/utils/clientPromise";
 import { projectColumns } from "./columns";
+import Project from "@/app/models/Project";
 
 const ProjectsPage = async () => {
   await connect();
-  const aboutUsData = await Product.find({});
+  const aboutUsData = await Project.find({});
   const dataObj = JSON.parse(JSON.stringify(aboutUsData || []));
   return (
     <MaxWidthWrapper>

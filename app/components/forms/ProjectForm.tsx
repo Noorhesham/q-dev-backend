@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
 import { createEntity, updateEntity } from "@/app/actions/actions";
 import MaxWidthWrapper from "../defaults/MaxWidthWrapper";
 import ProjectTitleForm from "./projectforms/ProjectTitle";
@@ -13,8 +12,6 @@ import { DarkImagesForm, LightImagesForm } from "./projectforms/Gallery";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import VideoSingleForm from "./projectforms/VideoSingleForm";
 import { Project, SectionType } from "@/app/types";
-
-
 
 const formComponents = {
   title: ProjectTitleForm,
@@ -34,7 +31,7 @@ export default function ProjectEditor({ initialData }: { initialData: Project })
   const handleSubmit = async (sectionType: SectionType, values: Project) => {
     try {
       console.log(sectionType, values);
-      const data = { title: values?.title || initialData.title, [sectionType]: values };
+      const data = { title: values?.title || initialData?.title, [sectionType]: values };
       const result = await updateEntity("Project", projectId, data);
       return result;
     } catch (error) {

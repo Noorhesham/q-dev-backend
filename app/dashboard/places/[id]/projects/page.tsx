@@ -3,7 +3,6 @@ import { DataTable } from "@/app/components/DataTable";
 import MaxWidthWrapper from "@/app/components/defaults/MaxWidthWrapper";
 import ProjectTitleForm from "@/app/components/forms/projectforms/ProjectTitle";
 import ModelCustom from "@/app/components/ModelCustom";
-import { projectColumns } from "@/app/dashboard/projects/columns";
 import Project from "@/app/models/Project";
 import connect from "@/app/utils/clientPromise";
 import { Button } from "@/components/ui/button";

@@ -5,11 +5,14 @@ import ProjectTitleForm from "@/app/components/forms/projectforms/ProjectTitle";
 import ModelCustom from "@/app/components/ModelCustom";
 import { projectColumns } from "@/app/dashboard/projects/columns";
 import Project from "@/app/models/Project";
+import connect from "@/app/utils/clientPromise";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
+  await connect();
+
   const projects = await Project.find({ place: params.id });
   console.log(projects);
   return (

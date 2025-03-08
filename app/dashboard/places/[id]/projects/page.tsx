@@ -13,7 +13,7 @@ import { projectsColumns } from "./columns";
 const page = async ({ params }: { params: { id: string } }) => {
   await connect();
 
-  const projects = await Project.find({ place: params.id });
+  const projects = await Project.find({ place: params.id }).populate("place");
   console.log(projects);
   return (
     <MaxWidthWrapper>

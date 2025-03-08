@@ -29,8 +29,12 @@ export type AboutUsSection = {
 
 export const projectsColumns: ColumnDef<AboutUsSection>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: "Name",
+  },
+  {
+    accessorKey: "place.name",
+    header: "Place",
   },
 
   {
@@ -39,8 +43,8 @@ export const projectsColumns: ColumnDef<AboutUsSection>[] = [
       const section = row.original;
 
       return (
-        <Link href={`/dashboard/project/${section._id}`} className={buttonVariants() + " w-full"}>
-          View Project
+        <Link href={`/dashboard/project/${section._id}`} className={buttonVariants() + " w-fit"}>
+          Edit Project
         </Link>
       );
     },

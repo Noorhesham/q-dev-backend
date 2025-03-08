@@ -8,6 +8,7 @@ import connect from "@/app/utils/clientPromise";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
+import { projectsColumns } from "./columns";
 
 const page = async ({ params }: { params: { id: string } }) => {
   await connect();
@@ -20,7 +21,7 @@ const page = async ({ params }: { params: { id: string } }) => {
         <h1 className="text-2xl font-bold">Projects</h1>{" "}
         <ModelCustom content={<ProjectTitleForm id={params.id} />} btn={<Button>Create New Project</Button>} />{" "}
       </div>
-      <DataTable page={1} columns={projectColumns} data={JSON.parse(JSON.stringify(projects || []))} />
+      <DataTable page={1} columns={projectsColumns} data={JSON.parse(JSON.stringify(projects || []))} />
     </MaxWidthWrapper>
   );
 };

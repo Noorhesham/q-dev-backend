@@ -9,12 +9,12 @@ import { commonFields } from "@/app/utils/validate";
 const formConfig = {
   fields: [
     ...commonFields,
-    {
-      name: "photo",
-      label: "Main Photo",
-      component: "photo",
-      validation: z.string().min(1),
-    },
+    // {
+    //   name: "photo",
+    //   label: "Main Photo",
+    //   component: "photo",
+    //   validation: z.string().min(1),
+    // },
     {
       name: "background",
       label: "Background Image",
@@ -33,9 +33,8 @@ const formConfig = {
     },
   ],
   defaultValues: {
-    order: 0,
     content: "",
-    photo: "",
+    // photo: "",
     background: "",
     facilities: [{ title: "", photo: "" }],
   },

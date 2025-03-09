@@ -35,17 +35,19 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
   const getFormConfig = (type: SectionType): FormConfig => {
     const commonFields: FormField[] = [
       {
-        name: "order",
-        label: "Order",
-        type: "number",
-        validation: z.union([
-          z.string().min(1, { message: "Order is required." }),
-          z.number().min(0, { message: "Order must be a positive number." }),
-        ]),
-      },
-      {
         name: "title",
         label: "Title",
+        validation: z.string().min(2, { message: "Title must be at least 2 characters long." }),
+      },
+      {
+        name: "background",
+        label: "Background image",
+        validation: z.string().min(2),
+        component: "photo",
+      },
+      {
+        name: "pageTitle",
+        label: "page Title",
         validation: z.string().min(2, { message: "Title must be at least 2 characters long." }),
       },
       {
@@ -216,7 +218,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
         setErrors(newErrors);
         return;
       }
-      console.log(values)
+      console.log(values);
       const result = initialData
         ? await updateEntity("AboutUs", initialData._id, { ...values, type: activeTab })
         : await createEntity("AboutUs", { ...values, type: activeTab });

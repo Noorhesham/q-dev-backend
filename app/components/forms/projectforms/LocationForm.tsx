@@ -13,6 +13,7 @@ const formConfig = {
       name: "background",
       label: "Background",
       component: "photo",
+      z: z.string().min(1),
     },
     {
       name: "numbers",
@@ -23,7 +24,7 @@ const formConfig = {
           number: z.union([z.string().min(1), z.number().min(0)]),
           title: z.string().min(2),
           prefix: z.string().min(1),
-          photo: z.string().min(1),
+          video: z.string().min(1),
         })
       ),
     },
@@ -33,7 +34,7 @@ const formConfig = {
     content: "",
     photo: "",
     background: "",
-    numbers: [{ number: 0, title: "", prefix: "", photo: "" }],
+    numbers: [{ number: 0, title: "", prefix: "", video: "" }],
   },
   fieldArrays: ["numbers"],
 };

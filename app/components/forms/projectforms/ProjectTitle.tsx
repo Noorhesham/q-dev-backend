@@ -16,7 +16,7 @@ export default function ProjectTitleForm({ id, initialData }: any) {
       },
     ],
     defaultValues: {
-      title: initialData.title || "",
+      title: initialData?.title || "",
     },
   };
   const router = useRouter();

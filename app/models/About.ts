@@ -37,11 +37,13 @@ const aboutUsSectionSchema = new mongoose.Schema(
       required: true,
       enum: ["special_numbers", "multi_stuff", "ceo", "board_members", "companies", "certificates"],
     },
-    order: Number,
     // Common fields
     title: String,
     content: String,
+    pageTitle: String,
+
     photo: String,
+    background: String,
     // Type-specific arrays
     numbers: [specialNumberSchema],
     items: [multiStuffItemSchema],

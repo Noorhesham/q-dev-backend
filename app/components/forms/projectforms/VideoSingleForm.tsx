@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const VideoSingleForm = ({ initialData, onSubmit }) => {
   const handleSubmit = (data) => {
-    return onSubmit(data.videos);
+    return onSubmit(data.video);
   };
   return (
     <div>
@@ -13,7 +13,7 @@ const VideoSingleForm = ({ initialData, onSubmit }) => {
         fields={[
           {
             name: "video",
-            label: "Video URLs",
+            label: "Video URL",
             component: "photo",
             validation: z.string(),
             mediaType: "video",

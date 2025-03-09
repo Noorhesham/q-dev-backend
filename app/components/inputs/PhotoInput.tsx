@@ -79,7 +79,7 @@ export const PhotoInput = ({
       <Input
         type="file"
         multiple={!shouldStoreSingle}
-        accept={mediaType === "image" ? "image/*" : "video/*"}
+        accept={mediaType === "image" && name !== "video" ? "image/*" : "video/*"}
         disabled={isUploading}
         onChange={(e) => e.target.files && handleUpload(e.target.files)}
         className="cursor-pointer"

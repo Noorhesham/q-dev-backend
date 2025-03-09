@@ -12,7 +12,7 @@ export default function ArrayFields({ config, control }) {
           control,
           name: fieldName,
         });
-
+        console.log(config);
         return (
           <div key={fieldName} className="space-y-4">
             {fields.map((field, index) => (
@@ -22,11 +22,12 @@ export default function ArrayFields({ config, control }) {
                     (key) =>
                       key !== "id" && (
                         <FormInput
+                          mediaType={key === "video" ? "video" : "image"}
                           key={`${fieldName}.${index}.${key}`}
                           name={`${fieldName}.${index}.${key}`}
-                          single={key === "photo"}
+                          single={key === "photo" || key === "video"}
                           label={key.charAt(0).toUpperCase() + key.slice(1)}
-                          photo={key === "photo"}
+                          photo={key === "photo" || key === "video"}
                         />
                       )
                   )
@@ -51,7 +52,7 @@ export default function ArrayFields({ config, control }) {
 function getDefaultItem(fieldName) {
   switch (fieldName) {
     case "numbers":
-      return { number: 0, title: "", prefix: "", photo: "" };
+      return { number: 0, title: "", prefix: "", video: "" };
     case "facilities":
       return { title: "", photo: "" };
     default:

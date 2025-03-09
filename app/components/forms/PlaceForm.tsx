@@ -22,7 +22,7 @@ export default function PlaceForm({ initialData, onSuccess }: PlaceFormProps) {
       },
       {
         name: "photo",
-        label: "Photo",
+        label: "map photo",
         component: "photo",
         validation: z.string(),
         single: true,
@@ -35,7 +35,7 @@ export default function PlaceForm({ initialData, onSuccess }: PlaceFormProps) {
       },
       {
         name: "background",
-        label: "Background",
+        label: "Background photo",
         component: "photo",
         validation: z.string(),
         single: true,

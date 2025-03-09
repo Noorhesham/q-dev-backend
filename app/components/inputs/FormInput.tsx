@@ -77,6 +77,7 @@ const FormInput = ({
   area = false,
   width,
   check = false,
+  mediaType,
 }: FormInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -110,7 +111,7 @@ const FormInput = ({
               {area ? (
                 <RichText description={field.value} onChange={field.onChange} />
               ) : photo ? (
-                <PhotoInput single={single} name={name} value={field.value} onChange={field.onChange} />
+                <PhotoInput mediaType={mediaType} single={single} name={name}  />
               ) : switchToggle ? (
                 <div className="flex mx-auto   mt-3 gap-2 items-center ">
                   <Label className=" uppercase md:text-sm  text-xs text-muted-foreground" htmlFor="sale">

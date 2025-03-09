@@ -136,6 +136,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
       case "board_members":
         return {
           fields: [
+            ...commonFields,
             {
               name: "members",
               label: "Members",

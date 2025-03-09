@@ -249,7 +249,6 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
                       if (key === "id") return null;
                       const isPhoto = key === "photo" || key === "image" || key === "url" || key === "images";
                       const componentType = config.arrayFieldComponents?.[`${fieldName}.${key}`] || undefined;
-
                       return (
                         <FormInput
                           single={key === "photo"}

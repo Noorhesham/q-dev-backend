@@ -90,6 +90,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
       case "multi_stuff":
         return {
           fields: [
+            ...commonFields,
             {
               name: "items",
               label: "Items",

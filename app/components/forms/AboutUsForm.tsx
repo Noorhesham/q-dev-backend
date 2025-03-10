@@ -167,7 +167,6 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
               name: "companies",
               label: "Companies",
               component: "array",
-              single: true,
               validation: z
                 .array(
                   z.object({
@@ -183,6 +182,9 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             companies: [{ photo: "", title: "", content: "" }],
           },
           fieldArrays: ["companies"],
+          arrayFieldComponents: {
+            "companies.content": "textarea",
+          },
         };
 
       case "certificates":
@@ -291,7 +293,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
       case "members":
         return { photo: "", title: "", jobTitle: "", content: "" };
       case "companies":
-        return { image: "", title: "", content: "" };
+        return { photo: "", title: "", content: "" };
 
       default:
         return {};

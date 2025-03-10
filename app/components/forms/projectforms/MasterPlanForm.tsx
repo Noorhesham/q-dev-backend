@@ -16,6 +16,18 @@ export default function MasterPlanForm({ initialData, onSubmit }: { initialData?
           component: "photo",
           validation: z.string().min(1),
         },
+        {
+          name: "background",
+          label: "Background Image",
+          component: "photo",
+          validation: z.string().min(1),
+        },
+        {
+          name: "plans",
+          label: "Master Plan List",
+          validation: z.array(z.string()),
+          component: "photo",
+        },
       ]}
       onSubmit={onSubmit}
       defaultValues={

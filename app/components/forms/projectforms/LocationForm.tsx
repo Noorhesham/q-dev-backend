@@ -13,7 +13,7 @@ const formConfig = {
       name: "background",
       label: "Background",
       component: "photo",
-      z: z.string().min(1),
+      validation: z.string().min(1),
     },
     {
       name: "numbers",

@@ -12,6 +12,7 @@ import { DarkImagesForm, LightImagesForm } from "./projectforms/Gallery";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import VideoSingleForm from "./projectforms/VideoSingleForm";
 import { Project, SectionType } from "@/app/types";
+import AboutProject from "./projectforms/AboutProject";
 
 const formComponents = {
   title: ProjectTitleForm,
@@ -22,6 +23,7 @@ const formComponents = {
   lightImages: LightImagesForm,
   master_plan: MasterPlanForm,
   video: VideoSingleForm,
+  about:AboutProject
 };
 
 export default function ProjectEditor({ initialData }: { initialData: Project }) {

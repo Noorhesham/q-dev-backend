@@ -57,6 +57,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
         component: "textarea",
       },
     ];
+    console.log(Object.values(commonFields));
 
     switch (type) {
       case "special_numbers":
@@ -110,6 +111,10 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             items: [{ photo: "", title: "", description: "" }],
           },
           fieldArrays: ["items"],
+          arrayFieldComponents: {
+            "items.photo": "photo",
+            "items.description": "textarea",
+          },
         };
 
       case "ceo":
@@ -136,7 +141,10 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
       case "board_members":
         return {
           fields: [
-            ...commonFields,
+            ...Object.values(commonFields)
+              .filter((field) => field.name !== "content") // Ensure field has a name property
+              .map((field) => field), // No need to access `commonFields[f]`, since `field` is already the value
+
             {
               name: "members",
               label: "Members",
@@ -157,6 +165,9 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
             members: [{ photo: "", title: "", jobTitle: "", content: "" }],
           },
           fieldArrays: ["members"],
+          arrayFieldComponents: {
+            "members.content": "textarea",
+          },
         };
 
       case "companies":

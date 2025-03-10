@@ -15,7 +15,12 @@ export async function GET(request: Request, context: { params: { id: string } })
 
     const projects = await Project.find({ place: place._id });
 
-    return NextResponse.json({ success: true, data: { place, projects } }, { status: 200 });
+    const response = NextResponse.json({ success: true, data: { place, projects } }, { status: 200 });
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+    return response;
   } catch (error) {
     console.error("Error fetching place and projects:", error);
     return NextResponse.json({ success: false, error: "Server Error" }, { status: 500 });

@@ -19,6 +19,7 @@ const formConfig = {
       name: "background",
       label: "Background Image",
       component: "photo",
+      validation: z.string().min(1),
     },
     {
       name: "facilities",

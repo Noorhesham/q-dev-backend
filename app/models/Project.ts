@@ -4,7 +4,7 @@ const specialNumberSchema = new mongoose.Schema({
   number: Number,
   title: String,
   prefix: String,
-  photo: String,
+  video: String,
 });
 
 const facilitySchema = new mongoose.Schema({
@@ -39,6 +39,8 @@ const projectSchema = new mongoose.Schema(
     master_plan: {
       content: String,
       photo: String,
+      plans: [String],
+      background: String,
     },
 
     darkImages: [String], // New field

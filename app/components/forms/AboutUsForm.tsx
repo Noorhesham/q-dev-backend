@@ -184,17 +184,19 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
                     photo: z.string(),
                     title: z.string().min(2, { message: "Title is required." }),
                     content: z.string().min(10, { message: "Content must be at least 10 characters." }),
+                    sideImage: z.string(),
                   })
                 )
                 .min(1, { message: "At least one company is required." }),
             },
           ],
           defaultValues: {
-            companies: [{ photo: "", title: "", content: "" }],
+            companies: [{ photo: "", title: "", content: "", sideImage: "" }],
           },
           fieldArrays: ["companies"],
           arrayFieldComponents: {
             "companies.content": "textarea",
+            "companies.sideImage": "photo",
           },
         };
 
@@ -262,11 +264,12 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
                   {typeof field === "object" && field !== null ? (
                     Object.keys(field).map((key) => {
                       if (key === "id") return null;
-                      const isPhoto = key === "photo" || key === "image" || key === "url" || key === "images";
+                      const isPhoto =
+                        key === "photo" || key === "image" || key === "url" || key === "images" || key === "sideImage";
                       const componentType = config.arrayFieldComponents?.[`${fieldName}.${key}`] || undefined;
                       return (
                         <FormInput
-                          single={key === "photo"}
+                          single={key === "photo"|| key === "sideImage"}
                           photo={isPhoto}
                           key={`${fieldName}.${index}.${key}`}
                           name={`${fieldName}.${index}.${key}`}
@@ -304,7 +307,7 @@ export default function AboutUsForm({ initialData, onSuccess }: AboutUsFormProps
       case "members":
         return { photo: "", title: "", jobTitle: "", content: "" };
       case "companies":
-        return { photo: "", title: "", content: "" };
+        return { photo: "", title: "", content: "", sideImage: "" };
 
       default:
         return {};

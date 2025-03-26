@@ -23,6 +23,7 @@ const companySchema = new mongoose.Schema({
   photo: String,
   title: String,
   content: String,
+  sideImage: { type: String, default: "" },
 });
 
 const certificateImageSchema = new mongoose.Schema({

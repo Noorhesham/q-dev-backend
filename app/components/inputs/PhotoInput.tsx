@@ -91,7 +91,7 @@ export const PhotoInput = ({
             <div key={url + index} className="relative w-full h-44 group">
               {mediaType === "image" ? (
                 <Image
-                  src={`${url}`}
+                  src={`/api/${url}`}
                   alt={`Upload ${index + 1}`}
                   fill
                   className="rounded-lg w-full object-cover aspect-square"
